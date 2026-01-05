@@ -1,0 +1,4 @@
+RDS_HOSTNAME=localhost
+RDS_PORT=5488
+RDS_USERNAME=postgres
+RDS_PASSWORD=qwer
