@@ -1,0 +1,16 @@
+services:
+  spring-postgres:
+    image: postgres:15
+    container_name: spring-postgres
+    ports:
+      - "5430:5432"
+    environment:
+      POSTGRES_USER: spring
+      POSTGRES_PASSWORD: spring
+      POSTGRES_DB: spring
+    volumes:
+      - order_postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  order_postgres_data:
