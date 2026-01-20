@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class Order {
 
     private final Long id;
