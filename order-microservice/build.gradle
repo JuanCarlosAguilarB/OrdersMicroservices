@@ -65,3 +65,23 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "demo"
+		property "sonar.projectName", "demo"
+		property "sonar.host.url", "http://localhost:9000"
+		property "sonar.login", "sqa_c96eae8c59f7bc225f283e740b2811cd29b23b86"
+	}
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "demo"
+		property "sonar.projectName", "demo"
+		property "sonar.host.url", "http://localhost:9000"
+
+		// Usamos el token dinámicamente
+		property "sonar.login", project.findProperty("sonarToken") ?: ""
+	}
+}
