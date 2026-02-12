@@ -26,8 +26,9 @@ public class OrderController {
             @RequestBody CreateOrderRequest request,
             ServerHttpRequest httpRequest){
 
-        InetAddress ipAddress = Objects.requireNonNull(httpRequest.getRemoteAddress())
-                .getAddress();
+        InetAddress ipAddress = httpRequest.getRemoteAddress() != null
+                ? httpRequest.getRemoteAddress().getAddress()
+                : null;
 
         return service.create(CreateOrderRequestMapper.toDto(request, ipAddress, "API")).map(ResponseEntity::ok);
     }
