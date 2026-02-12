@@ -3,6 +3,7 @@ package com.example.demo.sales.domain;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -32,14 +33,19 @@ public class Order {
 
     private String notes;
     private String source;
-    private String ipAddress;
+    private InetAddress ipAddress;
 
     private OffsetDateTime orderDate;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 
-    private boolean deleted;
+    private boolean isActive;
     private Integer version;
+
+//    public Order create (){
+//        return null;
+//    }
+
 
     public void confirm() {
         if (orderStatus != OrderStatus.PENDING) {
