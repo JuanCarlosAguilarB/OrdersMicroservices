@@ -1,6 +1,7 @@
 package com.example.demo.sales.application;
 
 import com.example.demo.sales.domain.Order;
+import com.example.demo.sales.domain.OrderCreateDtoMother;
 import com.example.demo.sales.domain.OrderObjectMother;
 import com.example.demo.sales.domain.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /***
@@ -29,12 +32,18 @@ class OrderServiceTest {
 
     @Test
     void shouldCreateOrder() {
-        Order order = OrderObjectMother.getRandomOrder();
 
-        when(repository.save(order)).thenReturn(Mono.just(order));
+        OrderCreateDto dto = OrderCreateDtoMother.random();
+        Order mappedOrder = OrderCreateDto.toDomain(dto);
 
-        StepVerifier.create(service.create(order))
-                .expectNext(order)
+        when(repository.save(any(Order.class)))
+                .thenReturn(Mono.just(mappedOrder));
+
+        StepVerifier.create(service.create(dto))
+                .expectNext(mappedOrder)
                 .verifyComplete();
+
+        verify(repository).save(any(Order.class));
     }
+
 }

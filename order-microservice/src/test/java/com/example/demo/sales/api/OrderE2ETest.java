@@ -1,6 +1,8 @@
 package com.example.demo.sales.api;
 
+import com.example.demo.sales.application.OrderCreateDto;
 import com.example.demo.sales.domain.Order;
+import com.example.demo.sales.domain.OrderCreateDtoMother;
 import com.example.demo.sales.domain.OrderObjectMother;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,8 @@ class OrderE2ETest {
 
     @Test
     void shouldCreateOrderE2E() {
-        Order order = OrderObjectMother.getRandomOrder();
+        OrderCreateDto order = OrderCreateDtoMother.random();
+
 
         webTestClient.post()
                 .uri("/api/v1/orders")
