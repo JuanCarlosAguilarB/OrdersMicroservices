@@ -42,10 +42,6 @@ public class Order {
     private boolean isActive;
     private Integer version;
 
-//    public Order create (){
-//        return null;
-//    }
-
 
     public void confirm() {
         if (orderStatus != OrderStatus.PENDING) {
