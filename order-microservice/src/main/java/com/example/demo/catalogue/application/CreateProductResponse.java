@@ -1,10 +1,12 @@
 package com.example.demo.catalogue.application;
 
 import lombok.Builder;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 
 @Builder
+@Getter
 public class CreateProductResponse {
 
     private final Long id;
