@@ -12,8 +12,8 @@ public class OrderService {
 
     private final OrderRepository repository;
 
-    public Mono<Order> create (Order order) {
-        return repository.save(order);
+    public Mono<Order> create (OrderCreateDto orderDto) {
+        return repository.save(OrderCreateDto.toDomain(orderDto));
     }
 
 }

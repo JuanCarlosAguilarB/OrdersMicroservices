@@ -1,6 +1,7 @@
 package com.example.demo.shared.domain;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -30,6 +31,26 @@ public class FactoryRandomValues {
             sb.append(characters.charAt(index));
         }
         return sb.toString();
+    }
+
+    public static InetAddress generateRandomAddress() {
+        try {
+            ThreadLocalRandom random = ThreadLocalRandom.current();
+
+            int firstOctet = random.nextInt(1, 224); // avoid multicast (224+)
+            int secondOctet = random.nextInt(0, 256);
+            int thirdOctet = random.nextInt(0, 256);
+            int fourthOctet = random.nextInt(1, 255); // avoid .0 and .255
+
+            String ip = firstOctet + "." +
+                    secondOctet + "." +
+                    thirdOctet + "." +
+                    fourthOctet;
+
+            return InetAddress.getByName(ip);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to generate random InetAddress", e);
+        }
     }
 
     public static String generateRandomPhoneNumber() {

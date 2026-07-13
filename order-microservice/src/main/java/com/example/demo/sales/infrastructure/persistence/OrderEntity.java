@@ -8,13 +8,16 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Table(name = "ORDERS", schema = "SALES")
+@Table(name = "orders", schema = "sales")
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class OrderEntity {
 
     @Id
@@ -36,12 +39,11 @@ public class OrderEntity {
     private UUID billingAddressId;
     private String notes;
     private String source;
-    private String ipAddress;
+    private InetAddress ipAddress;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
     private Integer version;
-    private boolean deleted;
-    private OffsetDateTime deletedAt;
+    private boolean isActive;
 }

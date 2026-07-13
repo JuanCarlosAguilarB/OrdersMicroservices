@@ -1,53 +1,68 @@
 package com.example.demo.sales.domain;
 
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
-import static com.example.demo.shared.domain.FactoryRandomValues.generateRandomBigDecimal;
-import static com.example.demo.shared.domain.FactoryRandomValues.generateRandomIntValue;
-import static com.example.demo.shared.domain.FactoryRandomValues.generateRandomLongValue;
-import static com.example.demo.shared.domain.FactoryRandomValues.generateRandomString;
-import static com.example.demo.shared.domain.FactoryRandomValues.getRandomEnumValue;
-import static com.example.demo.shared.domain.FactoryRandomValues.randomOffsetDateTime;
+import static com.example.demo.shared.domain.FactoryRandomValues.*;
 
-public  class OrderObjectMother {
+public class OrderObjectMother {
 
-    public static Order getRandomOrder (){
-        BigDecimal bigDecimalLimit = new  BigDecimal(50000000);
-        int longLimit = 100000;
-        int stringLimit = 100;
+    public static Order random() {
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+
+        BigDecimal subtotal = BigDecimal.valueOf(random.nextLong(10_000, 5_000_000));
+
+        BigDecimal discount = subtotal
+                .multiply(BigDecimal.valueOf(random.nextDouble(0.0, 0.3)));
+
+        BigDecimal tax = subtotal
+                .multiply(BigDecimal.valueOf(random.nextDouble(0.0, 0.19)));
+
+        BigDecimal shipping = BigDecimal.valueOf(random.nextLong(5_000, 50_000));
+
+        BigDecimal total = subtotal
+                .subtract(discount)
+                .add(tax)
+                .add(shipping);
+
+        OffsetDateTime created = randomOffsetDateTime();
+        OffsetDateTime updated = created.plusMinutes(random.nextLong(1, 1000));
+
+        OrderStatus orderStatus = OrderStatus.PENDING;
+        PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
         return new Order(
-                generateRandomLongValue(longLimit),
-                generateRandomString(stringLimit),
-                generateRandomLongValue(longLimit), // customerId
+                generateRandomLongValue(100_000), // id
+                generateRandomString(20),
+                generateRandomLongValue(100_000),
 
-                getRandomEnumValue(OrderStatus.class),
-                getRandomEnumValue(PaymentStatus.class),
+                orderStatus,
+                paymentStatus,
                 getRandomEnumValue(Currency.class),
 
-                generateRandomBigDecimal(bigDecimalLimit),
-                generateRandomBigDecimal(bigDecimalLimit),
-                generateRandomBigDecimal(bigDecimalLimit),
-                generateRandomBigDecimal(bigDecimalLimit),
-                generateRandomBigDecimal(bigDecimalLimit),
+                subtotal,
+                discount,
+                tax,
+                shipping,
+                total,
 
-                generateRandomString(stringLimit),
+                generateRandomString(20),
                 UUID.randomUUID(),
                 UUID.randomUUID(),
 
-                generateRandomString(stringLimit),
-                generateRandomString(stringLimit),
-                generateRandomString(stringLimit),
+                generateRandomString(50),
+                generateRandomString(20),
+                generateRandomAddress(),
 
-                randomOffsetDateTime(),
-                randomOffsetDateTime(),
-                randomOffsetDateTime(),
+                created,
+                created,
+                updated,
 
-                false,
-                generateRandomIntValue(0, 10) // version --> optimistic locking, random small non-negative int
-
+                true,
+                generateRandomIntValue(0, 5)
         );
     }
-
 }

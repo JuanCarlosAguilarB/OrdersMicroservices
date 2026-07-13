@@ -1,5 +1,6 @@
+
 -------------------- order enums ---------------------------------
-CREATE TYPE ORDER_STATUS_ENUM AS ENUM(
+CREATE TYPE SALES.ORDER_STATUS_ENUM AS ENUM(
 	'Pending',
 	'Confirmed',
 	'Processing',
@@ -7,9 +8,8 @@ CREATE TYPE ORDER_STATUS_ENUM AS ENUM(
 	'Completed'
 );
 
-CREATE TYPE PAYMENT_STATUS_ENUM AS ENUM('Pending', 'Paid', 'Failed');
-
-CREATE TYPE CURRENCY_ENUM AS ENUM('USD', 'EUR', 'GBP', 'MXN');
+CREATE TYPE SALES.PAYMENT_STATUS_ENUM AS ENUM('Pending', 'Paid', 'Failed');
+CREATE TYPE SALES.CURRENCY_ENUM AS ENUM('USD', 'EUR', 'GBP', 'MXN');
 
 -------------------- order ---------------------------------
 CREATE TABLE SALES.ORDERS (
@@ -17,15 +17,15 @@ CREATE TABLE SALES.ORDERS (
                               ORDER_NUMBER VARCHAR(50) NOT NULL UNIQUE,
                               CUSTOMER_ID BIGINT NOT NULL,
                               ORDER_DATE TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-                              ORDER_STATUS ORDER_STATUS_ENUM NOT NULL, --- enum
+                              ORDER_STATUS SALES.ORDER_STATUS_ENUM NOT NULL, --- enum
                               SUBTOTAL_AMOUNT NUMERIC(18, 2) NOT NULL,
                               DISCOUNT_AMOUNT NUMERIC(18, 2) NOT NULL DEFAULT 0,
                               TAX_AMOUNT NUMERIC(18, 2) NOT NULL DEFAULT 0,
                               SHIPPING_AMOUNT NUMERIC(18, 2) NOT NULL DEFAULT 0,
                               TOTAL_AMOUNT NUMERIC(18, 2) NOT NULL,
-                              CURRENCY CURRENCY_ENUM NOT NULL DEFAULT 'USD', --- enum
+                              CURRENCY SALES.CURRENCY_ENUM NOT NULL DEFAULT 'USD', --- enum
                               PAYMENT_METHOD VARCHAR(50),
-                              PAYMENT_STATUS PAYMENT_STATUS_ENUM, --- enum
+                              PAYMENT_STATUS SALES.PAYMENT_STATUS_ENUM, --- enum
                               SHIPPING_ADDRESS_ID UUID,
                               BILLING_ADDRESS_ID UUID,
                               NOTES TEXT,
